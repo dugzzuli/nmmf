@@ -24,14 +24,16 @@ def train_off(V_Data,r,k,e):
     for i in range(length):
         H_data.append(H)
 
-    for count in range(length):
-        err.append(W*H_data[count].T)
+
     # 计算误差矩阵
 
 
 
     # 开始迭代计算
     for x in range(k):
+        err.clear()
+        for count in range(length):
+            err.append(W * H_data[count].T)
         err_sum = calculate_err(V_Data, err, length, m, n);
         print(err_sum)
         data_err.append(err_sum)
@@ -60,8 +62,8 @@ def train_off(V_Data,r,k,e):
                 if d[i_2, j_2] != 0:
                     print("正在计算中...更新W......行" + str(i_2) + " 列" + str(j_2))
                     W[i_2,j_2] = W[i_2,j_2] * c[i_2,j_2] / d[i_2, j_2]
-
-        return W,H_data,data_err
+        print(str(k) + "次")
+    return W,H_data,data_err
 
 
 
@@ -117,7 +119,12 @@ def train(V, r, k, e):
                     W[i_2,j_2] = W[i_2,j_2] * c[i_2,j_2] / d[i_2, j_2]
 
     return W,H,data_err
-
+def calc_V(W,H):
+    data=[]
+    length=len(H)
+    for i in range(length):
+        data.append(W*H[i].T)
+    return data
 
 if __name__ == "__main__":
     file_path = "./result_nmf"
@@ -125,7 +132,7 @@ if __name__ == "__main__":
     V = load_data(file_path)
     #W, H,err = train(V, 2, 100, 1e-5)
     V_data=[V,V,V,V,V]
-    W, H, data_err=train_off(V_data, 2, 100, 1e-5 )
+    W, H, data_err=train_off(V_data, 2, 10000, 1e-5 )
     # print("=======打印V======")
     # print(V)
     # print("=======打印W======")
@@ -134,7 +141,10 @@ if __name__ == "__main__":
     # print(H)
     # print("=======打印W * H======")
     # print( W * H)
+    run=calc_V(W,H)
+    print(run)
     plot_err.plot_err_cure(data_err)
+    
 
 
 
