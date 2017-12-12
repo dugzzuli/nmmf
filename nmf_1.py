@@ -12,12 +12,12 @@ def load_data(file_path):
             data.append(float(x))
         V.append(data)
     return mat(V)
-def train_off(V_Data,r,k,e):
+def train_off(V_data,r,k,e):
     data_err = []
     err=[];
     H_data=[];
-    length= len(V_Data)
-    m,n=shape(V_Data[0])
+    length= len(V_data)
+    m,n=shape(V_data[0])
     W = mat(random.random((m, r)))
     H = mat(random.random((n, r)))
     #模拟计算H矩阵
@@ -34,13 +34,13 @@ def train_off(V_Data,r,k,e):
         err.clear()
         for count in range(length):
             err.append(W * H_data[count].T)
-        err_sum = calculate_err(V_Data, err, length, m, n);
+        err_sum = calculate_err(V_data, err, length, m, n);
         print(err_sum)
         data_err.append(err_sum)
         if err_sum < e:
             break
         for i in range(length):
-            a=V_Data[i].T*W
+            a=V_data[i].T*W
             b=H_data[i]*W.T*W
             H_Q=H_data[i];
             for i_1 in range(n):
@@ -51,7 +51,7 @@ def train_off(V_Data,r,k,e):
             H_data[i]=H_Q;
         c=zeros([m,r])
         for i in range(length):
-            c=c+(V_Data[i]*H_data[i])
+            c=c+(V_data[i]*H_data[i])
             print("执行中......c")
         d=zeros([m,r])
         for i in range(length):
