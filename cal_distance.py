@@ -1,18 +1,12 @@
 #########################################
-# kNN: k Nearest Neighbors
-
-# Input:      newInput: vector to compare to existing dataset (1xN)
-#             dataSet:  size m data set of known vectors (NxM)
-#             labels: 	data set labels (1xM vector)
-#             k: 		number of neighbors to use for comparison
-
-# Output:     the most popular class label
+# 计算时间序列之间的距离
+#
 #########################################
 
 from numpy import *
+import numpy as np
 import operator
 from dtw import dtw
-
 
 # create a dataset which contains 4 samples with 2 classes
 def createDataSet():
@@ -28,37 +22,20 @@ def calDistance(A,B):
     return dist
 
 # classify using kNN
-def kNNClassify(newInput, dataSet, labels, k):
+def kNN(dataSet,e):
     numSamples = dataSet.shape[0]  # shape[0] stands for the num of row
-
-    ## step 1: calculate Euclidean distance
-    # tile(A, reps): Construct an array by repeating A reps times
-    # the following copy numSamples rows for dataSet
-
-    diff = tile(newInput, (numSamples, 1)) - dataSet  # Subtract element-wise
-    squaredDiff = diff ** 2  # squared for the subtract
-    squaredDist = sum(squaredDiff, axis=1)  # sum is performed by row
-    distance = squaredDist ** 0.5
-
-    ## step 2: sort the distance
-    # argsort() returns the indices that would sort an array in a ascending order
-    sortedDistIndices = argsort(distance)
-
-    classCount = {}  # define a dictionary (can be append element)
-    for i in range(k):
-        ## step 3: choose the min k distance
-        voteLabel = labels[sortedDistIndices[i]]
-
-        ## step 4: count the times labels occur
-        # when the key voteLabel is not in dictionary classCount, get()
-        # will return 0
-        classCount[voteLabel] = classCount.get(voteLabel, 0) + 1
-
-    ## step 5: the max voted class will return
-    maxCount = 0
-    for key, value in classCount.items():
-        if value > maxCount:
-            maxCount = value
-            maxIndex = key
-
-    return maxIndex
+    mat=zeros([numSamples,numSamples])
+    for i in range(numSamples):
+        for j in range(numSamples):
+            if (i!=j):
+                mat[i,j]=calDistance(np.array(dataSet[i,:]).reshape(-1, 1),np.array(dataSet[j,:].reshape(-1, 1)));
+    for i in range(numSamples):
+        for j in range(numSamples):
+            if(mat[i,j]<e):
+                mat[i, j]=0;
+    return mat
+if __name__ == '__main__':
+    std_data=mat([[1,2,3,4,5,5,6,7,8,9,89],[1,2,3,4,5,5,6,7,8,9,89],[1,2,3,4,5,5,6,7,8,9,89]])
+    print(std_data)
+    mat=kNN(std_data,15)
+    print(mat)
