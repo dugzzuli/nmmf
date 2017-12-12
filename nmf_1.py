@@ -40,7 +40,7 @@ def train_off(V_Data,r,k,e):
         if err_sum < e:
             break
         for i in range(length):
-            a=V_data[i].T*W
+            a=V_Data[i].T*W
             b=H_data[i]*W.T*W
             H_Q=H_data[i];
             for i_1 in range(n):
@@ -51,7 +51,7 @@ def train_off(V_Data,r,k,e):
             H_data[i]=H_Q;
         c=zeros([m,r])
         for i in range(length):
-            c=c+(V_data[i]*H_data[i])
+            c=c+(V_Data[i]*H_data[i])
             print("执行中......c")
         d=zeros([m,r])
         for i in range(length):

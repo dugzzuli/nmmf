@@ -19,7 +19,7 @@ def standard_data(Data):
     for i in range(m):
         std=Mean(Data[i])
         data_re.append(std)
-    return np.mat(data_re)
+    return data_re
 if __name__ == '__main__':
     std_data=standard_data([[1,2,3,4,5],[1,2,3,4,5],[1,2,3,4,5]])
     print(standard_data)

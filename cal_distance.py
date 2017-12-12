@@ -21,8 +21,7 @@ def calDistance(A,B):
     dist, cost, acc, path = dtw(A, B, dist=my_custom_norm)
     return dist
 
-# classify using kNN
-def kNN(dataSet,e):
+def eNN(dataSet,e):
     numSamples = dataSet.shape[0]  # shape[0] stands for the num of row
     mat=zeros([numSamples,numSamples])
     for i in range(numSamples):
@@ -37,5 +36,5 @@ def kNN(dataSet,e):
 if __name__ == '__main__':
     std_data=mat([[1,2,3,4,5,5,6,7,8,9,89],[1,2,3,4,5,5,6,7,8,9,89],[1,2,3,4,5,5,6,7,8,9,89]])
     print(std_data)
-    mat=kNN(std_data,15)
+    mat=eNN(std_data,15)
     print(mat)
